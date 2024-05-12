@@ -1,0 +1,28 @@
+{
+	"id": 2,
+	"name": "Chess Openings",
+	"short_name": "Chess Openings",
+	"icons": [
+		{
+			"src": "/bp.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/bp.png",
+			"sizes": "384x384",
+			"type": "image/png"
+		},
+		{
+			"src": "/bp.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"start_url": "/",
+    "theme_color": "black",
+    "background_color": "black",
+	"display": "standalone",
+	"orientation": "portrait"
+}
