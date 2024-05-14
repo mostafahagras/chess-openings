@@ -1,22 +1,12 @@
 "use client";
 import type { ColumnDef } from "@tanstack/react-table";
-// import { ExternalLink, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { RowDragHandleCell } from "@/components/ui/data-table";
 import { useOpenings } from "@/hooks/useOpenings";
 import { toast } from "sonner";
 import { EditOpeningForm } from "@/components/edit-opening-form";
 import { Chess } from "chess.js";
-import { useEffect } from "react";
 import Delete from "@/components/icons/delete";
 import ExternalLink from "@/components/icons/external-link";
 
