@@ -99,7 +99,7 @@ export function EditOpeningForm({ opening, validMoves }: Props) {
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
-						className="flex gap-2 flex-col md:flex-row"
+						className="flex gap-2 flex-col"
 					>
 						<FormField
 							control={form.control}
