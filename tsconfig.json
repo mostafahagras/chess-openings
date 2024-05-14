@@ -18,6 +18,7 @@
       }
     ],
     "paths": {
+      "@chess": ["./src/classes/chess.ts"],
       "@/*": ["./src/*"]
     }
   },
