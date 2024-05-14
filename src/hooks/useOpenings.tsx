@@ -1,12 +1,6 @@
 import { useLocalStorage } from "usehooks-ts";
-// import type { Opening } from "../columns"
+import type { Opening } from "@/app/columns"
 import { nanoid } from "nanoid";
-type Opening = {
-	move: string;
-	name?: string;
-	previousMoves: string[];
-	id: string;
-};
 
 export function useOpenings(previousMoves: string[]) {
 	const [openings, setOpenings, deleteOpenings] = useLocalStorage<Opening[]>(
@@ -30,23 +24,22 @@ export function useOpenings(previousMoves: string[]) {
 	}
 	function deleteOpening(moves: string[]) {
 		setOpenings((prev) =>
-			prev.filter((opening) =>
-				!opening.previousMoves
-					.concat(opening.move)
-					.join(",")
-					.startsWith(moves.join(",")),
+			prev.filter(
+				(opening) =>
+					!opening.previousMoves
+						.concat(opening.move)
+						.join(",")
+						.startsWith(moves.join(",")),
 			),
 		);
 	}
-	function editOpening() {}
-	function swapOpenings(firstId: string, secondId: string) {
-		setOpenings((prev) => {
-			const firstElement = prev.find((o) => o.id === firstId);
-			const secondElement = prev.find((o) => o.id === secondId);
-			return prev;
-			// 	.with(firstIndex, secondElement)
-			// 	.with(secondIndex, firstElement);
-		});
+	function editOpening(opening: Opening) {
+		if (openings.find((o) => o.move === opening.move && o.id !== opening.id))
+			return false;
+		setOpenings((prev) =>
+			prev.map((o) => (o.id === opening.id ? { ...o, ...opening } : o)),
+		);
+		return true;
 	}
 	return {
 		openings: openings.filter(
@@ -59,6 +52,5 @@ export function useOpenings(previousMoves: string[]) {
 		addOpening,
 		deleteOpening,
 		editOpening,
-		swapOpenings,
 	};
 }

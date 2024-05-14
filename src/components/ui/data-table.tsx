@@ -40,12 +40,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { GripVertical } from "lucide-react";
 import type { Opening } from "@/app/columns";
 import type React from "react";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { useOpenings } from "@/hooks/useOpenings";
+import DragHandle from "../icons/drag-handle";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -58,13 +58,13 @@ export const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
 		id: rowId,
 	});
 	return (
-		// Alternatively, you could set these attributes on the rows themselves
 		<button
 			{...attributes}
 			{...listeners}
 			className={isDragging ? "cursor-grabbing" : "cursor-grab"}
 		>
-			<GripVertical />
+			<span className="sr-only">Drag handle</span>
+			<DragHandle />
 		</button>
 	);
 };
@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
 	data,
 	setData,
 }: DataTableProps<TData, TValue>) {
-	const { swapOpenings, openings } = useOpenings([]);
+	const { openings, setOpenings } = useOpenings([]);
 	const table = useReactTable({
 		data,
 		columns,
@@ -114,12 +114,11 @@ export function DataTable<TData, TValue>({
 		() => data.map((r) => r.id),
 		[data],
 	);
-	console.log(dataIds)
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
 		if (active && over && active.id !== over.id) {
 			const ids = openings.map((o) => o.id);
-			setData((data) => {
+			setOpenings((data) => {
 				const oldIndex = ids.indexOf(active.id as string);
 				const newIndex = ids.indexOf(over.id as string);
 				return arrayMove(data, oldIndex, newIndex);

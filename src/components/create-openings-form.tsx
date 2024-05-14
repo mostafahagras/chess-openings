@@ -30,19 +30,32 @@ type FormType = z.infer<typeof formSchema>;
 
 type Props = {
 	previousMoves: string[];
+	validMoves: string[];
 	openings: Opening[];
 	setOpenings: Dispatch<SetStateAction<Opening[]>>;
 };
 
-export default function CreateOpeningsForm({ previousMoves }: Props) {
+export default function CreateOpeningsForm({
+	previousMoves,
+	validMoves,
+}: Props) {
 	const { addOpening } = useOpenings(previousMoves);
 	const form = useForm<FormType>({
-		resolver: zodResolver(formSchema),
+		resolver: zodResolver(
+			formSchema.superRefine(({ move }, ctx) => {
+				if (!validMoves.includes(move)) {
+					ctx.addIssue({
+						message: "Illegal move",
+						code: "custom",
+						path: ["move"],
+					});
+				}
+			}),
+		),
 	});
 
 	function onSubmit({ move, name }: FormType) {
-		console.log({ moves: [...previousMoves, move], name });
-		const succeeded = addOpening(move, previousMoves, name);
+		const succeeded = addOpening(move, previousMoves, name || undefined);
 		if (succeeded) {
 			toast.success("Added opening");
 		} else {

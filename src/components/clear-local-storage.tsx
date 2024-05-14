@@ -1,5 +1,4 @@
 "use client";
-
 import Delete from "./icons/delete";
 
 export default function ClearLocalStorage() {

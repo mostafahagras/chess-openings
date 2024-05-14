@@ -1,6 +1,6 @@
 "use client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ExternalLink, MoreHorizontal } from "lucide-react";
+// import { ExternalLink, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,11 @@ import {
 import { RowDragHandleCell } from "@/components/ui/data-table";
 import { useOpenings } from "@/hooks/useOpenings";
 import { toast } from "sonner";
+import { EditOpeningForm } from "@/components/edit-opening-form";
+import { Chess } from "chess.js";
+import { useEffect } from "react";
+import Delete from "@/components/icons/delete";
+import ExternalLink from "@/components/icons/external-link";
 
 export type Opening = {
 	move: string;
@@ -32,7 +37,7 @@ export const columns: ColumnDef<Opening>[] = [
 		accessorKey: "name",
 		header: "Name",
 		cell(props) {
-			return props.row.getValue<string>("name") ?? "None";
+			return props.row.getValue<string>("name") || "None";
 		},
 	},
 	{
@@ -44,7 +49,7 @@ export const columns: ColumnDef<Opening>[] = [
 	},
 	{ accessorKey: "move", header: "Move" },
 	{
-		header: "Go to opening",
+		header: "Open",
 		cell(props) {
 			const previousMoves = props.row
 				.getValue<string[]>("previousMoves")
@@ -52,41 +57,47 @@ export const columns: ColumnDef<Opening>[] = [
 			const move = props.row.getValue<"">("move");
 			const href = `${previousMoves ? `/${previousMoves}` : ""}/${move}`;
 			return (
-				<Link href={href as "/"}>
-					<ExternalLink size="16" />
-				</Link>
+				<Button size="icon" variant="ghost" asChild>
+					<Link href={href as "/"}>
+						<ExternalLink />
+					</Link>
+				</Button>
 			);
 		},
 	},
 	{
+		id: "edit",
+		header: "Edit",
+		cell({ row: { original } }) {
+			const game = new Chess();
+			for (let i = 0; i < original.previousMoves.length; i++) {
+				try {
+					game.move(original.previousMoves[i]);
+				} catch (e) {
+					console.log((e as Error).message);
+				}
+			}
+			return <EditOpeningForm opening={original} validMoves={game.moves()} />;
+		},
+	},
+	{
 		id: "actions",
+		header: "Delete",
 		cell: ({ row }) => {
 			const opening = row.original;
 			const { openings, deleteOpening } = useOpenings([]);
-
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Edit</DropdownMenuItem>
-						<DropdownMenuItem
-							onClick={() =>
-								{deleteOpening([...opening.previousMoves, opening.move])
-								toast.success(`Deleted ${opening.name || opening.move}`)}
-							}
-							className="text-red-500 hover:!text-red-500"
-						>
-							Delete
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<Button
+					size="icon"
+					variant="ghost"
+					onClick={() => {
+						deleteOpening([...opening.previousMoves, opening.move]);
+						toast.success(`Deleted ${opening.name || opening.move}`);
+					}}
+					className="text-red-500 hover:!text-red-500"
+				>
+					<Delete />
+				</Button>
 			);
 		},
 	},
