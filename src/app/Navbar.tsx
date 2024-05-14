@@ -1,6 +1,7 @@
 import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 import Image from "next/image";
+import ClearLocalStorage from "@/components/clear-local-storage";
 
 export default function Navbar() {
 	return (
@@ -25,6 +26,7 @@ export default function Navbar() {
 							</div>
 						</Link>
 					</div>
+					<ClearLocalStorage />
 					<ThemeToggle />
 				</div>
 			</div>
