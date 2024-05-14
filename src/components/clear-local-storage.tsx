@@ -7,7 +7,9 @@ export default function ClearLocalStorage() {
 			className="text-red-500 mx-2"
 			hidden={
 				process.env.NODE_ENV !== "development" ||
-				!localStorage.getItem("openings")?.length
+				!(typeof localStorage !== "undefined"
+					? localStorage.getItem("openings")?.length
+					: true)
 			}
 			type="button"
 			onClick={() => localStorage.clear()}
