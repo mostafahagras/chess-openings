@@ -1,8 +1,8 @@
 import { useLocalStorage } from "usehooks-ts";
-import type { Opening } from "@/app/columns"
+import type { Opening } from "@/app/columns";
 import { nanoid } from "nanoid";
 
-export function useOpenings(previousMoves: string[]) {
+export function useOpenings(previousMoves?: string[]) {
 	const [openings, setOpenings, deleteOpenings] = useLocalStorage<Opening[]>(
 		"openings",
 		[],
@@ -42,11 +42,13 @@ export function useOpenings(previousMoves: string[]) {
 		return true;
 	}
 	return {
-		openings: openings.filter(
-			(o) =>
-				o.previousMoves.length === previousMoves.length &&
-				o.previousMoves.join().startsWith(previousMoves.join()),
-		),
+		openings: previousMoves
+			? openings.filter(
+					(o) =>
+						o.previousMoves.length === previousMoves.length &&
+						o.previousMoves.join().startsWith(previousMoves.join()),
+				)
+			: openings,
 		setOpenings,
 		deleteOpenings,
 		addOpening,

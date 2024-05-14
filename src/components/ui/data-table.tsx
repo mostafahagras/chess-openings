@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
 	data,
 	setData,
 }: DataTableProps<TData, TValue>) {
-	const { openings, setOpenings } = useOpenings([]);
+	const { openings, setOpenings } = useOpenings();
 	const table = useReactTable({
 		data,
 		columns,
@@ -118,10 +118,10 @@ export function DataTable<TData, TValue>({
 		const { active, over } = event;
 		if (active && over && active.id !== over.id) {
 			const ids = openings.map((o) => o.id);
-			setOpenings((data) => {
+			setOpenings((prev) => {
 				const oldIndex = ids.indexOf(active.id as string);
 				const newIndex = ids.indexOf(over.id as string);
-				return arrayMove(data, oldIndex, newIndex);
+				return arrayMove(prev, oldIndex, newIndex);
 			});
 		}
 	}
