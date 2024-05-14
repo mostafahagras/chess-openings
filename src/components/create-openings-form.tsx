@@ -86,7 +86,7 @@ export default function CreateOpeningsForm({
 					control={form.control}
 					name="name"
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className="flex-grow">
 							<FormLabel>Name</FormLabel>
 							<FormControl>
 								<Input placeholder="King's Pawn Opening" {...field} />
@@ -101,7 +101,7 @@ export default function CreateOpeningsForm({
 				<Button
 					type="submit"
 					variant="outline"
-					className="self-center w-32 md:flex-grow md:max-w-32"
+					className="self-center w-32 md:ml-auto md:flex-grow md:max-w-32"
 				>
 					Add
 				</Button>

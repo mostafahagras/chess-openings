@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "Chess Openings",
 	description: "All your chess opening theory in one place to practice it",
-  manifest: "/manifest.json"
+	manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
@@ -35,8 +35,7 @@ export default function RootLayout({
 					disableTransitionOnChange
 				>
 					<Navbar />
-					{children}
-
+					<div className="mx-auto max-w-7xl">{children}</div>
 					<Toaster />
 				</ThemeProvider>
 			</body>
