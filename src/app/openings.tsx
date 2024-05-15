@@ -76,9 +76,11 @@ export default function Openings({ previousMoves }: Props) {
 			try {
 				game.move(decodeURIComponent(previousMoves[i]), undefined, false);
 				setFen(game.fen());
-			} catch (error) {}
+			} catch (error) {
+				router.replace(`/${previousMoves.slice(0, i).join("/")}`);
+			}
 		}
-	}, [previousMoves, game]);
+	}, [previousMoves, game, router]);
 	const colors = useReadLocalStorage<SquareColor>("boardColors") || {
 		dark: "#739552",
 		light: "#ebecd0",
@@ -106,12 +108,16 @@ export default function Openings({ previousMoves }: Props) {
 						try {
 							const move = game.move({ from, to, promotion });
 							setFen(game.fen());
-							if (addOpening(move.san, previousMoves)) {
+							const slicedPreviousMoves = previousMoves.slice(
+								0,
+								previousMoves.length - game.undos.length,
+							);
+							if (addOpening(move.san, slicedPreviousMoves)) {
 								toast.success("Added opening");
 							} else {
 								toast.info("Opening already exists");
 							}
-							const prevMovesString = previousMoves.join("/");
+							const prevMovesString = slicedPreviousMoves.join("/");
 							router.push(
 								`${
 									prevMovesString ? `/${prevMovesString}` : ""
