@@ -34,7 +34,7 @@ export const columns: ColumnDef<Opening>[] = [
 		accessorKey: "previousMoves",
 		header: "Previous moves",
 		cell(props) {
-			return props.row.getValue<string[]>("previousMoves").join(" ") || "None";
+			return decodeURIComponent(props.row.getValue<string[]>("previousMoves").join(" ")) || "None";
 		},
 	},
 	{ accessorKey: "move", header: "Move" },
@@ -62,7 +62,7 @@ export const columns: ColumnDef<Opening>[] = [
 			const game = new Chess();
 			for (let i = 0; i < original.previousMoves.length; i++) {
 				try {
-					game.move(original.previousMoves[i]);
+					game.move(decodeURIComponent(original.previousMoves[i]));
 				} catch (e) {
 					console.log((e as Error).message);
 				}

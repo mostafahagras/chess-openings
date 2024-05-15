@@ -1,7 +1,7 @@
 import { type Move, Chess as _Chess } from "chess.js";
 
 /**
- * An extension on the chess.js class that adds the redo method, 
+ * An extension on the chess.js class that adds the redo method,
  * plays sound on move, capture, check, castle and promotion just like chess.com's
  */
 export class Chess extends _Chess {
@@ -42,25 +42,27 @@ export class Chess extends _Chess {
 	move(
 		move: string | { from: string; to: string; promotion?: string | undefined },
 		{ strict }: { strict?: boolean } = {},
+		playSound = true,
 	): Move {
-		const moveResult = super.move(move, { strict });
-		console.log(moveResult);
-		this.playSound(moveResult.san);
-		return moveResult;
+		try {
+			const moveResult = super.move(move, { strict });
+			if (playSound) this.playSound(moveResult.san);
+			return moveResult;
+		} catch (error) {
+			if (playSound) this.illegalMoveSound?.play();
+			throw error as Error;
+		}
 	}
 	private playSound(move: string) {
-		console.log(move);
-		if (/(O\-){1,2}O/.test(move)) {
-			console.log("Castle");
-			this.castleSound?.play();
-		} else if (/[\+#]$/.test(move)) {
+		if (/[\+#]$/.test(move)) {
 			this.checkSound?.play();
+		} else if (/(O\-){1,2}O/.test(move)) {
+			this.castleSound?.play();
 		} else if (/^[a-h](x[a-h])*[18]\=[QRBN]$/.test(move)) {
 			this.promoteSound?.play();
 		} else if (/x/.test(move)) {
 			this.captureSound?.play();
 		} else {
-			console.log("play");
 			this.moveSound?.play();
 		}
 	}
