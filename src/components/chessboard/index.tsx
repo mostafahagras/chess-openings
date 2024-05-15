@@ -73,7 +73,6 @@ export default function Chessboard({ squareColors, fen, onMove }: Props) {
 				}
 			}}
 		>
-			{/* {fen} */}
 			<div
 				className="w-[min(100%,500px)] relative"
 				style={{ height: boardDimentsions.height || "500px" }}

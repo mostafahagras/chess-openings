@@ -26,17 +26,20 @@ export class Chess extends _Chess {
 			this.checkSound = new Audio("/sounds/move-check.webm");
 		}
 	}
-	redo() {
+	redo(playSound = true) {
 		const lastUndone = this.undos.pop();
 		if (lastUndone) {
-			this.move(lastUndone);
+			this.move(lastUndone, undefined, playSound);
 			return lastUndone;
 		}
 		return null;
 	}
-	undo(): Move | null {
+	undo(playSound = true): Move | null {
 		const move = super.undo();
-		if (move) this.undos.push(move.san);
+		if (move) {
+			if(playSound) this.playSound(move.san);
+			this.undos.push(move.san);
+		}
 		return move;
 	}
 	move(
