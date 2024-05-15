@@ -4,7 +4,8 @@
 		"enabled": true
 	},
 	"formatter": {
-		"enabled": true
+		"enabled": true,
+		"ignore": ["node_modules/", "public/"]
 	},
 	"linter": {
 		"enabled": true,
@@ -14,8 +15,7 @@
 				"noSvgWithoutTitle": "off"
 			}
 		},
-
-		"ignore": ["node_modules/"]
+		"ignore": ["node_modules/", "public/"]
 	}
 
 }
