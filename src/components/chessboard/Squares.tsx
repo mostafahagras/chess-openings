@@ -1,6 +1,6 @@
-import Rank from "./Rank";
-import { useEventListener } from "usehooks-ts";
 import { useBoardStore } from "@/providers/board-store-provider";
+import { useEventListener } from "usehooks-ts";
+import Rank from "./Rank";
 
 const RANKS = [1, 2, 3, 4, 5, 6, 7, 8] as const;
 

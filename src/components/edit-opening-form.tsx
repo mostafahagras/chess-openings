@@ -18,15 +18,15 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Pencil } from "lucide-react";
 import { useOpenings } from "@/hooks/useOpenings";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import Edit from "./icons/edit";
 
 const formSchema = z

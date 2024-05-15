@@ -37,7 +37,7 @@ export class Chess extends _Chess {
 	undo(playSound = true): Move | null {
 		const move = super.undo();
 		if (move) {
-			if(playSound) this.playSound(move.san);
+			if (playSound) this.playSound(move.san);
 			this.undos.push(move.san);
 		}
 		return move;

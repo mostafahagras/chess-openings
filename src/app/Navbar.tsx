@@ -1,7 +1,7 @@
-import { ThemeToggle } from "@/components/theme-toggle";
-import Link from "next/link";
-import Image from "next/image";
 import ClearLocalStorage from "@/components/clear-local-storage";
+import { ThemeToggle } from "@/components/theme-toggle";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Navbar() {
 	return (

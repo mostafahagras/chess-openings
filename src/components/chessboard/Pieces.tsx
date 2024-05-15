@@ -1,9 +1,9 @@
-import { useDraggable } from "@dnd-kit/core";
-import type { Piece as PieceType } from "chess.js";
-import type { FileNumber, Rank } from "./types";
-import { CSS } from "@dnd-kit/utilities";
 import { useBoardStore } from "@/providers/board-store-provider";
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import type { Piece as PieceType } from "chess.js";
 import { chooseColor } from "./chooseHighlightColor";
+import type { FileNumber, Rank } from "./types";
 
 type Props = { pieces: PieceProps[] };
 

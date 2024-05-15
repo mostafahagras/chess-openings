@@ -1,14 +1,12 @@
 "use client";
-// https://tanstack.com/table/v8/docs/framework/react/examples/row-dnd
-import type { CSSProperties, Dispatch, SetStateAction } from "react";
 import {
 	DndContext,
+	type DragEndEvent,
 	KeyboardSensor,
 	MouseSensor,
 	TouchSensor,
-	closestCenter,
-	type DragEndEvent,
 	type UniqueIdentifier,
+	closestCenter,
 	useSensor,
 	useSensors,
 } from "@dnd-kit/core";
@@ -17,21 +15,24 @@ import {
 	restrictToVerticalAxis,
 } from "@dnd-kit/modifiers";
 import {
-	arrayMove,
 	SortableContext,
-	verticalListSortingStrategy,
+	arrayMove,
 	useSortable,
+	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+// https://tanstack.com/table/v8/docs/framework/react/examples/row-dnd
+import type { CSSProperties, Dispatch, SetStateAction } from "react";
 
 import {
 	type ColumnDef,
+	type Row,
 	flexRender,
 	getCoreRowModel,
 	useReactTable,
-	type Row,
 } from "@tanstack/react-table";
 
+import type { Opening } from "@/app/columns";
 import {
 	Table,
 	TableBody,
@@ -40,11 +41,10 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import type { Opening } from "@/app/columns";
+import { useOpenings } from "@/hooks/useOpenings";
+import { cn } from "@/lib/utils";
 import type React from "react";
 import { useMemo } from "react";
-import { cn } from "@/lib/utils";
-import { useOpenings } from "@/hooks/useOpenings";
 import DragHandle from "../icons/drag-handle";
 
 interface DataTableProps<TData, TValue> {

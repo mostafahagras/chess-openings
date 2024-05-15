@@ -1,6 +1,6 @@
-import { useLocalStorage } from "usehooks-ts";
 import type { Opening } from "@/app/columns";
 import { nanoid } from "nanoid";
+import { useLocalStorage } from "usehooks-ts";
 
 export function useOpenings(previousMoves?: string[]) {
 	const [openings, setOpenings, deleteOpenings] = useLocalStorage<Opening[]>(

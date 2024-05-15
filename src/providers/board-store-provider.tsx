@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, createContext, useRef, useContext } from "react";
+import { type ReactNode, createContext, useContext, useRef } from "react";
 import { type StoreApi, useStore } from "zustand";
 
 import { type BoardStore, createBoardStore } from "@/stores/board";
@@ -30,9 +30,7 @@ export const BoardStoreProvider = ({
 	);
 };
 
-export const useBoardStore = <T,>(
-	selector: (store: BoardStore) => T,
-): T => {
+export const useBoardStore = <T,>(selector: (store: BoardStore) => T): T => {
 	const boardStoreContext = useContext(BoardStoreContext);
 	if (!boardStoreContext)
 		throw new Error("useBoardStore must be within BoardStoreProvider");

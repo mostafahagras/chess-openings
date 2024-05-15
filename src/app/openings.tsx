@@ -1,27 +1,27 @@
 "use client";
 
-import { DataTable } from "@/components/ui/data-table";
-import { useReadLocalStorage } from "usehooks-ts";
-import { useHotkeys } from "react-hotkeys-hook";
-import { columns } from "./columns";
-import CreateOpeningsForm from "@/components/create-openings-form";
-import { useEffect, useMemo, useState } from "react";
-import { useOpenings } from "../hooks/useOpenings";
 import Chessboard from "@/components/chessboard";
 import type { SquareColor } from "@/components/chessboard/types";
-import { Chess } from "@chess";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import CreateOpeningsForm from "@/components/create-openings-form";
+import Pause from "@/components/icons/pause";
+import Play from "@/components/icons/play";
 import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
+import { sleep } from "@/lib/sleep";
+import { Chess } from "@chess";
 import {
 	ChevronFirst,
 	ChevronLast,
-	ChevronRight,
 	ChevronLeft,
+	ChevronRight,
 } from "lucide-react";
-import Pause from "@/components/icons/pause";
-import Play from "@/components/icons/play";
-import { sleep } from "@/lib/sleep";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { toast } from "sonner";
+import { useReadLocalStorage } from "usehooks-ts";
+import { useOpenings } from "../hooks/useOpenings";
+import { columns } from "./columns";
 
 type Props = {
 	previousMoves: string[];
@@ -64,7 +64,7 @@ export default function Openings({ previousMoves }: Props) {
 				setPlaying(true);
 				while (game.redo()) {
 					setFen(game.fen());
-					await sleep(500);
+					await sleep(1000);
 				}
 				setPlaying(false);
 			}

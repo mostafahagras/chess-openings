@@ -11,7 +11,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "format"
+    "*.{js,jsx,ts,tsx}": "bun run format"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
