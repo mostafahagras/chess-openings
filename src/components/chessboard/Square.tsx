@@ -2,29 +2,23 @@ import type { Dispatch, SetStateAction } from "react";
 import type { FileNumber, HighlightedSquare, Rank, SquareColor } from "./types";
 import { chooseColor } from "./chooseHighlightColor";
 import { useDroppable } from "@dnd-kit/core";
+import { useBoardStore } from "@/providers/board-store-provider";
 
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 type Props = {
 	rank: Rank;
 	file: FileNumber;
-	squareColors: SquareColor;
-	isDarkSquare: boolean;
-	setHighlightedSquares: Dispatch<SetStateAction<HighlightedSquare[]>>;
-	highlightColor?: string;
 };
 
-export default function Square({
-	squareColors,
-	file,
-	rank,
-	highlightColor,
-	isDarkSquare,
-	setHighlightedSquares,
-}: Props) {
+export default function Square({ file, rank }: Props) {
 	const { setNodeRef, isOver } = useDroppable({
 		id: `${FILES[file - 1]}${rank}`,
 	});
+	const { highlightSquare, squareColors, highlightColor } = useBoardStore(
+		(state) => state,
+	);
+	const isDarkSquare = (rank + file) % 2 === 0;
 	const squareColor = isDarkSquare ? squareColors.dark : squareColors.light;
 	const textColor = isDarkSquare ? squareColors.light : squareColors.dark;
 	return (
@@ -33,20 +27,17 @@ export default function Square({
 				onContextMenu={(e) => {
 					const { shiftKey, ctrlKey, altKey } = e;
 					e.preventDefault();
-					setHighlightedSquares((prev) => [
-						...prev,
-						{
-							color: chooseColor({ shiftKey, ctrlKey, altKey, isDarkSquare }),
-							file,
-							rank,
-						},
-					]);
+					highlightSquare({
+						file,
+						rank,
+						color: chooseColor({ shiftKey, ctrlKey, altKey, isDarkSquare }),
+					});
 				}}
 				width={8}
 				height={8}
 				x={(file - 1) * 8}
 				y={(8 - rank) * 8}
-				fill={highlightColor ?? squareColor}
+				fill={highlightColor({ file, rank }) ?? squareColor}
 				opacity={isOver ? 0.9 : 1}
 			/>
 			{rank === 1 && (

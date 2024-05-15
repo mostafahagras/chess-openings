@@ -4,3 +4,4 @@ export type FileNumber = Rank; // or 1 -> 8
 export type SquareRecord = { file: FileNumber; rank: Rank };
 export type HighlightedSquare = SquareRecord & { color: string };
 export type SquareColor = { light: string; dark: string };
+export type BoardDimentsions = { height: number; width: number };

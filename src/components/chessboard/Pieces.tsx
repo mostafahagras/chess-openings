@@ -2,6 +2,8 @@ import { useDraggable } from "@dnd-kit/core";
 import type { Piece as PieceType } from "chess.js";
 import type { FileNumber, Rank } from "./types";
 import { CSS } from "@dnd-kit/utilities";
+import { useBoardStore } from "@/providers/board-store-provider";
+import { chooseColor } from "./chooseHighlightColor";
 
 type Props = { pieces: PieceProps[] };
 
@@ -29,6 +31,7 @@ function Piece({ squareSize, file, rank, square, color, type }: PieceProps) {
 			data: { piece: type, color: color },
 			attributes: {},
 		});
+	const { highlightSquare } = useBoardStore((state) => state);
 	return (
 		<div
 			{...listeners}
@@ -42,6 +45,20 @@ function Piece({ squareSize, file, rank, square, color, type }: PieceProps) {
 				zIndex: isDragging ? 1 : 0,
 			}}
 			ref={setNodeRef}
+			onContextMenu={(e) => {
+				const { shiftKey, ctrlKey, altKey } = e;
+				e.preventDefault();
+				highlightSquare({
+					file,
+					rank,
+					color: chooseColor({
+						shiftKey,
+						ctrlKey,
+						altKey,
+						isDarkSquare: (rank + file) % 2 === 0,
+					}),
+				});
+			}}
 		>
 			<img
 				src={`/pieces/${color}${type}.webp`}

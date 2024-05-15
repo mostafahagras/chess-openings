@@ -125,7 +125,6 @@ export default function Openings({ previousMoves }: Props) {
 							);
 						} catch {}
 					}}
-					squareColors={colors}
 				/>
 				<div className="w-full max-w-[500px] flex gap-4 justify-center">
 					<Button
