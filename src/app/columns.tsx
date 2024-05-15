@@ -34,21 +34,22 @@ export const columns: ColumnDef<Opening>[] = [
 		accessorKey: "previousMoves",
 		header: "Previous moves",
 		cell(props) {
-			return decodeURIComponent(props.row.getValue<string[]>("previousMoves").join(" ")) || "None";
+			return (
+				decodeURIComponent(props.row.original.previousMoves.join(" ")) || "None"
+			);
 		},
 	},
 	{ accessorKey: "move", header: "Move" },
 	{
 		header: "Open",
 		cell(props) {
-			const previousMoves = props.row
-				.getValue<string[]>("previousMoves")
-				.join("/");
-			const move = props.row.getValue<"">("move");
+			const original = props.row.original;
+			const previousMoves = original.previousMoves.join("/");
+			const move = original.move;
 			const href = `${previousMoves ? `/${previousMoves}` : ""}/${move}`;
 			return (
 				<Button size="icon" variant="ghost" asChild>
-					<Link href={href as "/"}>
+					<Link href={href as "/"} title={`Go to ${original.name || move}`}>
 						<ExternalLink />
 					</Link>
 				</Button>
@@ -75,7 +76,7 @@ export const columns: ColumnDef<Opening>[] = [
 		header: "Delete",
 		cell: ({ row }) => {
 			const opening = row.original;
-			const { openings, deleteOpening } = useOpenings([]);
+			const { deleteOpening } = useOpenings([]);
 			return (
 				<Button
 					size="icon"
@@ -85,6 +86,7 @@ export const columns: ColumnDef<Opening>[] = [
 						toast.success(`Deleted ${opening.name || opening.move}`);
 					}}
 					className="text-red-500 hover:!text-red-500"
+					aria-label="Delete"
 				>
 					<Delete />
 				</Button>
