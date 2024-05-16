@@ -34,8 +34,16 @@ export function useOpenings(previousMoves?: string[]) {
 		);
 	}
 	function editOpening(opening: Opening) {
-		if (openings.find((o) => o.move === opening.move && o.id !== opening.id))
+		if (
+			openings.find(
+				(o) =>
+					o.move === opening.move &&
+					o.id !== opening.id &&
+					o.previousMoves.toString() === opening.previousMoves.toString(),
+			)
+		) {
 			return false;
+		}
 		setOpenings((prev) =>
 			prev.map((o) => (o.id === opening.id ? { ...o, ...opening } : o)),
 		);
