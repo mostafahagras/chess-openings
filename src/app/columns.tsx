@@ -46,7 +46,9 @@ export const columns: ColumnDef<Opening>[] = [
 			const original = props.row.original;
 			const previousMoves = original.previousMoves.join("/");
 			const move = original.move;
-			const href = `${previousMoves ? `/${previousMoves}` : ""}/${move}`;
+			const href = encodeURIComponent(
+				`${previousMoves ? `/${previousMoves}` : ""}/${move}`,
+			);
 			return (
 				<Button size="icon" variant="ghost" asChild>
 					<Link href={href as "/"} title={`Go to ${original.name || move}`}>
