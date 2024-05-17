@@ -1,7 +1,4 @@
-import {
-	BoardStoreProvider,
-	useBoardStore,
-} from "@/providers/board-store-provider";
+import { BoardStoreProvider } from "@/providers/board-store-provider";
 import {
 	DndContext,
 	KeyboardSensor,
@@ -11,18 +8,12 @@ import {
 	useSensors,
 } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
-import { Chess, Piece as _Piece } from "chess.js";
+import { Chess } from "chess.js";
 import { useCallback, useMemo, useState } from "react";
-import { useEventListener, useWindowSize } from "usehooks-ts";
+import { useWindowSize } from "usehooks-ts";
 import Pieces, { type PieceProps } from "./Pieces";
 import Squares from "./Squares";
-import type {
-	BoardDimentsions,
-	HighlightedSquare,
-	Rank,
-	SquareColor,
-	_File,
-} from "./types";
+import type { BoardDimentsions, Rank } from "./types";
 
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 

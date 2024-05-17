@@ -3,7 +3,6 @@ import type {
 	SquareColor,
 	SquareRecord,
 } from "@/components/chessboard/types";
-import { useReadLocalStorage } from "usehooks-ts";
 import { createStore } from "zustand/vanilla";
 
 export type BoardStore = {

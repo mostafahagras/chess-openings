@@ -1,8 +1,7 @@
 import { useBoardStore } from "@/providers/board-store-provider";
 import { useDroppable } from "@dnd-kit/core";
-import type { Dispatch, SetStateAction } from "react";
 import { chooseColor } from "./chooseHighlightColor";
-import type { FileNumber, HighlightedSquare, Rank, SquareColor } from "./types";
+import type { FileNumber, Rank } from "./types";
 
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
