@@ -44,9 +44,7 @@ export const columns: ColumnDef<Opening>[] = [
 		header: "Open",
 		cell(props) {
 			const original = props.row.original;
-			const previousMoves = original.previousMoves
-				.map((m) => encodeURIComponent(m))
-				.join("/");
+			const previousMoves = original.previousMoves.join("/");
 			const move = encodeURIComponent(original.move);
 			const href = `${previousMoves ? `/${previousMoves}` : ""}/${move}`;
 			return (
