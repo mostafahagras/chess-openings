@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useOpenings } from "@/hooks/useOpenings";
+import { SANRegex } from "@/lib/SANRegex";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
@@ -23,7 +24,7 @@ const formSchema = z.object({
 		.min(2, {
 			message: "Chess moves are at least 2 characters",
 		})
-		.regex(/^[abcdefgh12345678xQRNKB]+$/, "Invalid move"),
+		.regex(SANRegex, "Invalid move"),
 	name: z.string().optional(),
 });
 type FormType = z.infer<typeof formSchema>;

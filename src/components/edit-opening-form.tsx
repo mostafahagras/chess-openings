@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
@@ -19,10 +18,9 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useOpenings } from "@/hooks/useOpenings";
+import { SANRegex } from "@/lib/SANRegex";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -36,7 +34,7 @@ const formSchema = z
 			.min(2, {
 				message: "Chess moves are at least 2 characters",
 			})
-			.regex(/^[abcdefgh12345678xQRNKB]+$/, "Invalid move")
+			.regex(SANRegex, "Invalid move")
 			.optional(),
 		name: z.string().optional(),
 	})
