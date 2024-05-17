@@ -5,7 +5,7 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"ignore": ["node_modules/", "public/"]
+		"ignore": ["node_modules/", "public/", ".next/"]
 	},
 	"linter": {
 		"enabled": true,
@@ -18,7 +18,7 @@
 				"noUnusedImports": "error"
 			}
 		},
-		"ignore": ["node_modules/", "public/"]
+		"ignore": ["node_modules/", "public/", ".next/"]
 	}
 
 }
