@@ -44,11 +44,11 @@ export const columns: ColumnDef<Opening>[] = [
 		header: "Open",
 		cell(props) {
 			const original = props.row.original;
-			const previousMoves = original.previousMoves.join("/");
-			const move = original.move;
-			const href = encodeURIComponent(
-				`${previousMoves ? `/${previousMoves}` : ""}/${move}`,
-			);
+			const previousMoves = original.previousMoves
+				.map((m) => encodeURIComponent(m))
+				.join("/");
+			const move = encodeURIComponent(original.move);
+			const href = `${previousMoves ? `/${previousMoves}` : ""}/${move}`;
 			return (
 				<Button size="icon" variant="ghost" asChild>
 					<Link href={href as "/"} title={`Go to ${original.name || move}`}>
