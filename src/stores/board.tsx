@@ -15,7 +15,10 @@ export type BoardStore = {
 	squareSize: number;
 };
 
-export const createBoardStore = (squareSize: number) => {
+export const createBoardStore = (
+	squareSize: number,
+	squareColors: SquareColor,
+) => {
 	return createStore<BoardStore>()((set, get) => ({
 		highlightedSquares: [],
 		highlightSquare: (square) =>
@@ -34,11 +37,7 @@ export const createBoardStore = (squareSize: number) => {
 			get().highlightedSquares.find(
 				(s) => square.file === s.file && square.rank === s.rank,
 			)?.color,
-		squareColors:
-			/* useReadLocalStorage<SquareColor>("boardColors") */ null || {
-				dark: "#739552",
-				light: "#ebecd0",
-			},
+		squareColors: squareColors,
 		squareSize,
 	}));
 };

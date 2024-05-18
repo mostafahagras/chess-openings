@@ -3,6 +3,7 @@
 import { type ReactNode, createContext, useContext, useRef } from "react";
 import { type StoreApi, useStore } from "zustand";
 
+import type { SquareColor } from "@/components/chessboard/types";
 import { type BoardStore, createBoardStore } from "@/stores/board";
 
 export const BoardStoreContext = createContext<StoreApi<BoardStore> | null>(
@@ -12,15 +13,17 @@ export const BoardStoreContext = createContext<StoreApi<BoardStore> | null>(
 export interface BoardStoreProviderProps {
 	children: ReactNode;
 	squareSize: number;
+	squareColors: SquareColor;
 }
 
 export const BoardStoreProvider = ({
 	children,
 	squareSize,
+	squareColors,
 }: BoardStoreProviderProps) => {
 	const storeRef = useRef<StoreApi<BoardStore>>();
 	if (!storeRef.current) {
-		storeRef.current = createBoardStore(squareSize);
+		storeRef.current = createBoardStore(squareSize, squareColors);
 	}
 
 	return (

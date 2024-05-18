@@ -13,16 +13,17 @@ import { useCallback, useMemo, useState } from "react";
 import { useWindowSize } from "usehooks-ts";
 import Pieces, { type PieceProps } from "./Pieces";
 import Squares from "./Squares";
-import type { BoardDimentsions, Rank } from "./types";
+import type { BoardDimentsions, Rank, SquareColor } from "./types";
 
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
 type Props = {
 	fen: string;
 	onMove: (from: string, to: string, promotion: string) => void;
+	squareColors: SquareColor;
 };
 
-export default function Chessboard({ fen, onMove }: Props) {
+export default function Chessboard({ fen, onMove, squareColors }: Props) {
 	const game = useMemo(() => new Chess(fen), [fen]);
 	const [boardDimentsions, setBoardDimentsions] = useState<BoardDimentsions>({
 		width: 0,
@@ -56,7 +57,10 @@ export default function Chessboard({ fen, onMove }: Props) {
 				}
 			}}
 		>
-			<BoardStoreProvider squareSize={boardDimentsions.height / 8}>
+			<BoardStoreProvider
+				squareSize={boardDimentsions.height / 8}
+				squareColors={squareColors}
+			>
 				<div
 					className="w-full max-w-[500px] relative"
 					style={{ height: boardDimentsions.height || "500px" }}

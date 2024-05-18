@@ -81,7 +81,7 @@ export default function Openings({ previousMoves }: Props) {
 			}
 		}
 	}, [previousMoves, game, router]);
-	const _colors = useReadLocalStorage<SquareColor>("boardColors") || {
+	const squareColors = useReadLocalStorage<SquareColor>("boardColors") || {
 		dark: "#739552",
 		light: "#ebecd0",
 	};
@@ -104,6 +104,7 @@ export default function Openings({ previousMoves }: Props) {
 			<div className="flex flex-col items-center gap-4">
 				<Chessboard
 					fen={fen}
+					squareColors={squareColors}
 					onMove={(from, to, promotion) => {
 						try {
 							const move = game.move({ from, to, promotion });
