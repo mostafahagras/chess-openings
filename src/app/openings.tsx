@@ -76,12 +76,12 @@ export default function Openings({ previousMoves }: Props) {
 			try {
 				game.move(decodeURIComponent(previousMoves[i]), undefined, false);
 				setFen(game.fen());
-			} catch (error) {
+			} catch {
 				router.replace(`/${previousMoves.slice(0, i).join("/")}`);
 			}
 		}
 	}, [previousMoves, game, router]);
-	const colors = useReadLocalStorage<SquareColor>("boardColors") || {
+	const _colors = useReadLocalStorage<SquareColor>("boardColors") || {
 		dark: "#739552",
 		light: "#ebecd0",
 	};
@@ -181,7 +181,7 @@ export default function Openings({ previousMoves }: Props) {
 				validMoves={game.moves()}
 				setOpenings={setOpenings}
 			/>
-			<DataTable columns={columns} data={openings} setData={setOpenings} />
+			<DataTable columns={columns} data={openings} />
 		</div>
 	);
 }

@@ -22,7 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 // https://tanstack.com/table/v8/docs/framework/react/examples/row-dnd
-import type { CSSProperties, Dispatch, SetStateAction } from "react";
+import type { CSSProperties } from "react";
 
 import {
 	type ColumnDef,
@@ -50,7 +50,6 @@ import DragHandle from "../icons/drag-handle";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
-	setData: Dispatch<SetStateAction<TData[]>>;
 }
 
 export const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -99,7 +98,6 @@ function DraggableRow({ row, className, ...props }: DraggableRowProps) {
 export function DataTable<TData, TValue>({
 	columns,
 	data,
-	setData,
 }: DataTableProps<TData, TValue>) {
 	const { openings, setOpenings } = useOpenings();
 	const table = useReactTable({

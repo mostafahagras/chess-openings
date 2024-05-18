@@ -15,7 +15,8 @@
 				"noSvgWithoutTitle": "off"
 			},
 			"correctness": {
-				"noUnusedImports": "error"
+				"noUnusedImports": "error",
+				"noUnusedVariables": "warn"
 			}
 		},
 		"ignore": ["node_modules/", "public/", ".next/"]
