@@ -7,7 +7,6 @@ import Pause from "@/components/icons/pause";
 import Play from "@/components/icons/play";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
-import { sleep } from "@/lib/sleep";
 import { Chess } from "@chess";
 import {
 	ChevronFirst,
@@ -56,20 +55,21 @@ export default function Openings({ previousMoves }: Props) {
 			setFen(game.fen());
 		};
 	}, [game]);
-	const playMoves = useMemo(() => {
-		return async () => {
-			if (playing) {
-				setPlaying(false);
-			} else {
-				setPlaying(true);
-				while (game.redo()) {
-					setFen(game.fen());
-					await sleep(1000);
+	useEffect(() => {
+		let timer: NodeJS.Timeout;
+		if (playing) {
+			const playNextMove = async () => {
+				if (!game.redo()) {
+					setPlaying(false);
 				}
-				setPlaying(false);
-			}
-		};
-	}, [game, playing]);
+				setFen(game.fen());
+				timer = setTimeout(playNextMove, 1000);
+			};
+			playNextMove();
+		}
+
+		return () => clearTimeout(timer);
+	}, [playing, game]);
 	useEffect(() => {
 		game.reset();
 		for (let i = 0; i < previousMoves.length; i++) {
@@ -98,7 +98,9 @@ export default function Openings({ previousMoves }: Props) {
 		preventDefault: previousMoves.length !== game.undos.length,
 	});
 	useHotkeys("ArrowDown", lastMove, { preventDefault: !!game.undos.length });
-	useHotkeys("Space", playMoves, { preventDefault: !!game.undos.length });
+	useHotkeys("Space", () => setPlaying((p) => !p), {
+		preventDefault: !!game.undos.length,
+	});
 	return (
 		<div className="space-y-4">
 			<div className="flex flex-col items-center gap-4">
@@ -150,7 +152,7 @@ export default function Openings({ previousMoves }: Props) {
 					<Button
 						className="flex-grow"
 						variant="secondary"
-						onClick={playMoves}
+						onClick={() => setPlaying((p) => !p)}
 						disabled={!game.undos.length}
 					>
 						<span className="sr-only">Play / Pause</span>
