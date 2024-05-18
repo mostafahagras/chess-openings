@@ -14,16 +14,18 @@ export interface BoardStoreProviderProps {
 	children: ReactNode;
 	squareSize: number;
 	squareColors: SquareColor;
+	onMove: (from: string, to: string, promotion: string) => void;
 }
 
 export const BoardStoreProvider = ({
 	children,
 	squareSize,
 	squareColors,
+	onMove,
 }: BoardStoreProviderProps) => {
 	const storeRef = useRef<StoreApi<BoardStore>>();
 	if (!storeRef.current) {
-		storeRef.current = createBoardStore(squareSize, squareColors);
+		storeRef.current = createBoardStore(squareSize, squareColors, onMove);
 	}
 
 	return (
