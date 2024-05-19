@@ -16,7 +16,7 @@ import {
 	ChevronRight,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { toast } from "sonner";
 import { useReadLocalStorage } from "usehooks-ts";
@@ -32,29 +32,21 @@ export default function Openings({ previousMoves }: Props) {
 	const [playing, setPlaying] = useState(false);
 	const [game] = useState(new Chess(undefined, typeof window !== "undefined"));
 	const [fen, setFen] = useState(game.fen());
-	const undo = useMemo(() => {
-		return () => {
-			game.undo();
-			setFen(game.fen());
-		};
+	const undo = useCallback(() => {
+		game.undo();
+		setFen(game.fen());
 	}, [game]);
-	const redo = useMemo(() => {
-		return () => {
-			game.redo();
-			setFen(game.fen());
-		};
+	const redo = useCallback(() => {
+		game.redo();
+		setFen(game.fen());
 	}, [game]);
-	const firstMove = useMemo(() => {
-		return () => {
-			while (game.undo(false)) {}
-			setFen(game.fen());
-		};
+	const firstMove = useCallback(() => {
+		while (game.undo(false)) {}
+		setFen(game.fen());
 	}, [game]);
-	const lastMove = useMemo(() => {
-		return () => {
-			while (game.redo(false)) {}
-			setFen(game.fen());
-		};
+	const lastMove = useCallback(() => {
+		while (game.redo(false)) {}
+		setFen(game.fen());
 	}, [game]);
 	useEffect(() => {
 		let timer: NodeJS.Timeout;
