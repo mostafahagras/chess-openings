@@ -1,5 +1,4 @@
 "use client";
-
 import Chessboard from "@/components/chessboard";
 import type { SquareColor } from "@/components/chessboard/types";
 import CreateOpeningsForm from "@/components/create-openings-form";
@@ -32,6 +31,7 @@ export default function Openings({ previousMoves }: Props) {
 	const [playing, setPlaying] = useState(false);
 	const [game] = useState(new Chess(undefined, typeof window !== "undefined"));
 	const [fen, setFen] = useState(game.fen());
+	const [actualPrevMoves, setActualPrevMoves] = useState(previousMoves);
 	const undo = useCallback(() => {
 		game.undo();
 		setFen(game.fen());
@@ -94,34 +94,36 @@ export default function Openings({ previousMoves }: Props) {
 	useHotkeys("Space", () => setPlaying((p) => !p), {
 		preventDefault: !!game.undos.length,
 	});
+	// biome-ignore lint/correctness/useExhaustiveDependencies: only actualPrevMoves is needed
+	const onMove = useCallback(
+		(from: string, to: string, promotion: string) => {
+			try {
+				const move = game.move({ from, to, promotion });
+				setFen(game.fen());
+				const slicedPreviousMoves = actualPrevMoves.slice(
+					0,
+					actualPrevMoves.length - game.undos.length,
+				);
+				if (addOpening(move.san, slicedPreviousMoves)) {
+					toast.success("Added opening");
+				} else {
+					toast.info("Opening already exists");
+				}
+				const prevMovesString = slicedPreviousMoves.join("/");
+				setActualPrevMoves((prev) => [...prev, move.san]);
+				router.push(
+					`${prevMovesString ? `/${prevMovesString}` : ""}/${encodeURIComponent(
+						move.san,
+					)}` as "/",
+				);
+			} catch {}
+		},
+		[actualPrevMoves],
+	);
 	return (
 		<div className="space-y-4">
-			<div className="flex flex-col items-center gap-4">
-				<Chessboard
-					fen={fen}
-					squareColors={squareColors}
-					onMove={(from, to, promotion) => {
-						try {
-							const move = game.move({ from, to, promotion });
-							setFen(game.fen());
-							const slicedPreviousMoves = previousMoves.slice(
-								0,
-								previousMoves.length - game.undos.length,
-							);
-							if (addOpening(move.san, slicedPreviousMoves)) {
-								toast.success("Added opening");
-							} else {
-								toast.info("Opening already exists");
-							}
-							const prevMovesString = slicedPreviousMoves.join("/");
-							router.push(
-								`${
-									prevMovesString ? `/${prevMovesString}` : ""
-								}/${encodeURIComponent(move.san)}` as "/",
-							);
-						} catch {}
-					}}
-				/>
+			<div className="flex flex-col items-center gap-4 mx-auto max-w-[500px]">
+				<Chessboard fen={fen} squareColors={squareColors} onMove={onMove} />
 				<div className="w-full max-w-[500px] flex gap-4 justify-center">
 					<Button
 						className="flex-grow"
