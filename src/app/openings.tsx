@@ -5,6 +5,7 @@ import type { SquareColor } from "@/components/chessboard/types";
 import CreateOpeningsForm from "@/components/create-openings-form";
 import Pause from "@/components/icons/pause";
 import Play from "@/components/icons/play";
+import Moves from "@/components/moves";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Chess } from "@chess";
@@ -139,7 +140,6 @@ export default function Openings({ previousMoves }: Props) {
 						<span className="sr-only">First Move</span>
 						<ChevronFirst />
 					</Button>
-
 					<Button
 						className="flex-grow"
 						variant="secondary"
@@ -177,6 +177,7 @@ export default function Openings({ previousMoves }: Props) {
 						<ChevronLast />
 					</Button>
 				</div>
+				<Moves moves={game.history()} />
 			</div>
 			<CreateOpeningsForm
 				previousMoves={previousMoves}
