@@ -21,7 +21,6 @@ import {
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-// https://tanstack.com/table/v8/docs/framework/react/examples/row-dnd
 import type { CSSProperties } from "react";
 
 import {
