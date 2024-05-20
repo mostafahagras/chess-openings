@@ -27,16 +27,7 @@ export const columns: ColumnDef<Opening>[] = [
 		accessorKey: "name",
 		header: "Name",
 		cell(props) {
-			return props.row.getValue<string>("name") || "None";
-		},
-	},
-	{
-		accessorKey: "previousMoves",
-		header: "Previous moves",
-		cell(props) {
-			return (
-				decodeURIComponent(props.row.original.previousMoves.join(" ")) || "None"
-			);
+			return props.row.original.name || "None";
 		},
 	},
 	{ accessorKey: "move", header: "Move" },
